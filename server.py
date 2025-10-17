@@ -12,6 +12,9 @@ def sent_emotion():
     text_to_analyze = request.args.get('textToAnalyze')
     response = emotion_detector(text_to_analyze)
 
+    if response['dominant_emotion'] == None:
+        return "Invalid Text! Please try again!"
+
     # Return a formatted string with the sentiment label and score
     ret_val = "For the given statement, the system response is"
     dominant_enotion = ""
