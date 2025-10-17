@@ -1,3 +1,5 @@
+"""Emotional server."""
+
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
 
@@ -5,19 +7,21 @@ app = Flask("Emotion Detection")
 
 @app.route("/")
 def render_index_page():
+    """Render home page."""
     return render_template('index.html')
 
 @app.route("/emotionDetector")
 def sent_emotion():
+    """Handle emotions."""
     text_to_analyze = request.args.get('textToAnalyze')
     response = emotion_detector(text_to_analyze)
 
-    if response['dominant_emotion'] == None:
+    if response['dominant_emotion'] is None:
         return "Invalid Text! Please try again!"
 
     # Return a formatted string with the sentiment label and score
     ret_val = "For the given statement, the system response is"
-    dominant_enotion = ""
+    dominant_emotion = ""
     for emotion, score in response.items():
         if emotion != 'dominant_emotion':
             ret_val += " '" + emotion + "': " + str(score) + ","
